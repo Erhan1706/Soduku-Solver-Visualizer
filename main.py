@@ -2,7 +2,7 @@
 import pygame
 import pygame_widgets
 import ui as ui
-import asyncio
+from time import time
 
 # pygame setup
 def main():
@@ -10,6 +10,7 @@ def main():
     running = True
     dt = 0
 
+    timer_delay = time()
 
     while running:
         # poll for events
@@ -21,11 +22,18 @@ def main():
         
         ui.updateScreen()
         ui.drawBoardLines()
+        ui.renderText()
+
+        if ui.runAlgo:
+            try:
+                if time() - timer_delay >= ui.slider.getValue():
+                    ui.iterate()
+                    timer_delay = time()
+            except StopIteration:
+                ui.runAlgo = False
 
         pygame_widgets.update(events)
         pygame.display.update()
-        # limits FPS to 60
-        dt = clock.tick(60) / 1000
 
 
     pygame.quit()

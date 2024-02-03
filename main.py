@@ -1,7 +1,7 @@
 # Example file showing a circle moving on screen
 import pygame
 import pygame_widgets
-import ui as ui
+from ui import UI
 from time import time
 
 # pygame setup
@@ -9,7 +9,7 @@ def main():
     clock = pygame.time.Clock()
     running = True
     dt = 0
-
+    ui = UI()
     timer_delay = time()
 
     while running:

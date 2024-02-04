@@ -1,4 +1,3 @@
-# Example file showing a circle moving on screen
 import pygame
 import pygame_widgets
 from ui import UI
@@ -30,7 +29,7 @@ def main():
                     ui.iterate()
                     timer_delay = time()
             except StopIteration:
-                ui.runAlgo = False
+                ui.finish()
 
         pygame_widgets.update(events)
         pygame.display.update()

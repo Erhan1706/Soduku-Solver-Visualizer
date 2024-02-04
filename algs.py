@@ -1,3 +1,3 @@
 from algorithms import *
 
-algorithmsList = [naiveBacktracking]
+algorithmsList = [naiveBacktracking, mrvBacktracking]

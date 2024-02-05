@@ -6,12 +6,12 @@ Support this project by leaving a ⭐
 
 ## Existing Algorithms:
 
--<b>Naive backtracking</b>: Simplest brute-force approach, where you go from left to righ and try every possible number from 1 to 9. If this leads to an invalid board state then backtrack to a previous branch and try the next valid number.
+-<b>Naive backtracking</b>: The simplest brute-force approach. It involves iterating through each empty square from left to right and trying every possible number from 1 to 9. If a selected number leads to an invalid board state then backtrack to the previous decision point and try the next valid number.
 
 ![](/public/naive.gif)
 
--<b>Minimal Remaining Values</b>: Solution based on constant propagation. We maintain a list of which possible values each square can possibly have, given the other
-numbers that have been assigned. Instead of going left to right, we select the next index by the minimal value remaining heuristic - the empty square with the least number of possible values.
+-<b>Minimal Remaining Values</b>: This algorithm relies on constant propagation. It maintains a list of possible values that each square can have, given the other
+numbers that have been already assigned. We select the next index by the minimal value remaining heuristic - the empty square with the least number of possible values remaining. 
 
 ![](/public/mrv.gif)
 
@@ -20,4 +20,3 @@ numbers that have been assigned. Instead of going left to right, we select the n
 - Clone the GitHub repository `git clone https://github.com/Erhan1706/Soduku-Solver-Visualizer.git`
 - Install requirements: `pip install -r requirements.txt`
 - Run: `python src/main.py`
- 

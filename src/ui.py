@@ -1,5 +1,4 @@
 import pygame 
-import pygame_widgets
 import numpy as np
 from pygame_widgets.button import Button
 from pygame_widgets.textbox import TextBox

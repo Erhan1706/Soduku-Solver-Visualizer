@@ -1,4 +1,3 @@
-from typing import List
 import pygame
 import pygame_widgets
 from algorithms.validCheckers import insertChecker

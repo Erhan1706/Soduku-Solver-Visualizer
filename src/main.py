@@ -5,9 +5,7 @@ from time import time
 
 # pygame setup
 def main():
-    clock = pygame.time.Clock()
     running = True
-    dt = 0
     ui = UI()
     timer_delay = time()
 

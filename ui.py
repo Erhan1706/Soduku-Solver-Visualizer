@@ -7,6 +7,8 @@ from pygame_widgets.slider import Slider
 from pygame_widgets.dropdown import Dropdown
 from algs import algorithmsList
 from algorithms.validCheckers import isBoardValid
+from algorithms.generator import boardGenerator
+from algorithms.generator import pokeHoles
 
 
 # Colors 
@@ -23,6 +25,7 @@ class UI:
     pygame.init()
 
     self.baseFont = pygame.font.SysFont('Century Gothic', 16)
+    self.secondFont = pygame.font.SysFont('Century Gothic', 20)
     self.screen = pygame.display.set_mode((900, 520))
     pygame.display.set_caption('Sudoku Solver Algorithms Visualizer')
 
@@ -31,9 +34,7 @@ class UI:
     self.surface = self.baseFont.render('', True, BLACK)
 
     # Setup default board
-    intialBoard =  [[".",".","9","7","4","8",".",".","."],["7",".",".",".",".",".",".",".","."],[".","2",".","1",".","9",".",".","."],[".",".","7",".",".",".","2","4","."],[".","6","4",".","1",".","5","9","."],[".","9","8",".",".",".","3",".","."],[".",".",".","8",".","3",".","2","."],[".",".",".",".",".",".",".",".","6"],[".",".",".","2","7","5","9",".","."]]
-    
-    """ [["5","3",".",".","7",".",".",".","."]
+    intialBoard = [["5","3",".",".","7",".",".",".","."]
           ,["6",".",".","1","9","5",".",".","."]
           ,[".","9","8",".",".",".",".","6","."]
           ,["8",".",".",".","6",".",".",".","3"]
@@ -41,7 +42,7 @@ class UI:
           ,["7",".",".",".","2",".",".",".","6"]
           ,[".","6",".",".",".",".","2","8","."]
           ,[".",".",".","4","1","9",".",".","5"]
-          ,[".",".",".",".","8",".",".","7","9"]] """
+          ,[".",".",".",".","8",".",".","7","9"]] 
 
     self.board = np.empty((9, 9), dtype=object)
     self.setupBoard()
@@ -52,8 +53,8 @@ class UI:
     self.startButton = Button(
         self.screen,
         600,  # X-coordinate of top left corner
-        50,  # Y-coordinate of top left corner
-        100,  # Width
+        440,  # Y-coordinate of top left corner
+        200,  # Width
         25,  # Height
         text='Start',  
         font = self.baseFont,
@@ -64,15 +65,30 @@ class UI:
         radius=0,  
         onClick= self.startStopHandler
       )
-    self.slider = Slider(self.screen, 600, 300, 100, 10, min=0, max=0.5, step=0.05, handleRadius=20, initial=0.1)
+    self.slider = Slider(self.screen, 610, 210, 230, 12, min=0, max=0.5, step=0.05, handleRadius=13, initial=0.1)
     self.dropdown = Dropdown(
-        self.screen, 600, 180, 250, 50, name='Algorithm',
+        self.screen, 600, 245, 250, 50, name='Algorithm',
         choices=[
             'Naive Backtracking',
-            'Smart Backtracking (MRV)',
+            'Minimal Remaining Value',
         ],
         borderColour=BLACK, colour=GRAY, values=[0, 1], direction='down', textHAlign='left', 
         font = self.baseFont
+    )
+    self.randomButton = Button(        
+      self.screen,
+      600,  # X-coordinate of top left corner
+      470,  # Y-coordinate of top left corner
+      200,  # Width
+      25,  # Height
+      text='Randomize Board',  
+      font = self.baseFont,
+      margin=20, 
+      inactiveColour= GRAY,  
+      hoverColour=(150, 150, 150),  
+      pressedColour=(100, 100, 100), 
+      radius=0,
+      onClick= self.randomizeBoard
     )
 
     self.currentAlgo =  None
@@ -95,14 +111,16 @@ class UI:
   def updateScreen(self): self.screen.fill(WHITE)
 
   def renderText(self):
-    self.screen.blit(self.surface, (600, 420))
+    self.screen.blit(self.surface, (600, 410))
+    self.screen.blit(self.secondFont.render('Delay', True, BLACK), (605, 170))
+
 
   def iterate(self): 
     try:
-      new_board = next(self.currentAlgo)
-      self.updateBoard(new_board)
+      self.numCalls = next(self.currentAlgo)
     except: 
       self.finish()
+
 
   def updateBoard(self, new_board):
     for i in range(9):
@@ -156,13 +174,24 @@ class UI:
   def finish(self): 
     self.runAlgo = False
     self.startButton.text = self.baseFont.render("Start", True, BLACK)
-    self.changeAlgorithm()
+    self.surface = self.baseFont.render(f'Number of calls: {self.numCalls}', True, GREEN)
+    self.changeAlgorithm(True)
 
-  def changeAlgorithm(self): 
+  def changeAlgorithm(self, finished = False): 
     index = self.dropdown.getSelected()
+    if finished: index = -1 # always change if algorithm changed
     if index == self.prevIndex or index is None or self.runAlgo: return
     self.currentAlgo = algorithmsList[index](self.board, 0, 0)
     self.prevIndex = index
 
 
+  def clearBoard(self):
+    for i in range(len(self.board)):
+      for j in range(len(self.board[i])):
+        self.board[i][j].setText("")
 
+  def randomizeBoard(self):
+    self.clearBoard()
+    boardGenerator(self.board, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+    pokeHoles(self.board)
+    # print(isBoardValid(self.board))

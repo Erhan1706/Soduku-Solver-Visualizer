@@ -10,8 +10,8 @@ c = Calls()
 def naiveBacktracking(board, i: int, j: int):
     c.callNum += 1
     if i == 9:
-        yield board  # Yield the final board state
-        print(c.callNum)
+        yield c.callNum  # Yield the final board state
+        c.callNum = 0
         raise StopIteration
     elif j == 9:
         yield from naiveBacktracking(board, i + 1, 0)  # Move to the next row
@@ -27,7 +27,7 @@ def naiveBacktracking(board, i: int, j: int):
                 pygame.display.update()
 
                 # Yield the current board state
-                yield board
+                yield c.callNum
 
                 # Recursively call the function for the next column
                 yield from naiveBacktracking(board, i, j + 1)

@@ -23,8 +23,8 @@ def mrvBacktracking(board, *args):
       validVals.append((i, j, counter))
 
   if done:
-      print(c.callNum)
-      yield board
+      yield c.callNum
+      c.callNum = 0
       raise StopIteration
   else:
     third_vals = [t[2] for t in validVals]
@@ -39,6 +39,6 @@ def mrvBacktracking(board, *args):
       if insertChecker(row, col, i, board):
         board[row][col].textColour = (250, 10, 10)
         board[row][col].setText(str(i))
-        yield board
+        yield c.callNum
         yield from mrvBacktracking(board)
         board[row][col].setText("")

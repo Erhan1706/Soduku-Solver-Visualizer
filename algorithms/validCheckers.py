@@ -7,7 +7,7 @@ def isBoardValid(board):
   return True
 
 
-# Function that checks if for a specific index, the row, column and 3x3 grid are valid without inserting a number
+# Function that checks if for a specific index, the row, column and 3x3 grid are valid
 def indexChecker(i, j, board):
     seen = set()
     for index in range(0, 9):
@@ -37,9 +37,11 @@ def indexChecker(i, j, board):
 def insertChecker(i : int, j : int, num: int, board) -> bool:
     num = str(num)
     for index in range(0, 9):
+        cur = board[i][index].getText()
         if board[i][index].getText() == "": continue
         elif board[i][index].getText() == num: return False
     for index in range(0, 9):
+        cur = board[index][j].getText()
         if board[index][j].getText() == "": continue
         elif board[index][j].getText() == num: return False
     startIndexCol = i // 3 * 3

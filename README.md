@@ -11,7 +11,7 @@ Support this project by leaving a ⭐
 ![](/public/naive.gif)
 
 -<b>Minimal Remaining Values</b>: This algorithm relies on constant propagation. It maintains a list of possible values that each square can have, given the other
-numbers that have been already assigned. We select the next index by the minimal value remaining heuristic - the empty square with the least number of possible values remaining. 
+numbers that have been already assigned. We select the next index by the minimal value remaining heuristic - the empty square with the least number of possible values remaining.
 
 ![](/public/mrv.gif)
 

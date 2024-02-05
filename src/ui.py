@@ -190,7 +190,9 @@ class UI:
         self.board[i][j].setText("")
 
   def randomizeBoard(self):
+    if self.runAlgo: return
     self.clearBoard()
     boardGenerator(self.board, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9])
     pokeHoles(self.board)
+    self.changeAlgorithm(True)
     # print(isBoardValid(self.board))
